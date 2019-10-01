@@ -10,6 +10,8 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import com.buer.config.Catalogautocreate;
+import com.buer.config.JframeWindow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +25,13 @@ import java.util.Scanner;
  */
 public class CodeGenerator {
 
-    public static String ROOT_PATH = "W:\\autoCrete";
     public static String PAKAGE = "/tms/";
-    //模块名
-    public static String MUNAME = "";
 
     public static void main(String[] args) {
+        JframeWindow.newWindow();
+    }
+
+    public static void execute(){
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
         //全局配置
@@ -69,13 +72,34 @@ public class CodeGenerator {
     }
 
     // 数据源配置
-    private static DataSourceConfig getDb(){
+    private static DataSourceConfig getDb1(){
+        DataSourceConfig dsc = new DataSourceConfig();
+        dsc.setUrl("jdbc:mysql://47.102.140.61:5432/bdxdocter?useUnicode=true&characterEncoding=gbk&serverTimezone=UTC");
+        // dsc.setSchemaName("public");
+        dsc.setDriverName("org.postgresql.Driver");
+        dsc.setUsername("postgres");
+        dsc.setPassword("bdxdocter2019");
+        return dsc;
+    }
+
+    // 数据源配置
+    private static DataSourceConfig getDb2(){
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setUrl("jdbc:mysql://10.248.61.27:3306/tms_dev?useUnicode=true&characterEncoding=gbk&serverTimezone=UTC");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("temp");
         dsc.setPassword("Temp!2019");
+        return dsc;
+    }
+    // 数据源配置
+    private static DataSourceConfig getDb(){
+        DataSourceConfig dsc = new DataSourceConfig();
+        dsc.setUrl("jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=gbk&serverTimezone=UTC");
+        // dsc.setSchemaName("public");
+        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
+        dsc.setUsername("root");
+        dsc.setPassword("root");
         return dsc;
     }
     // 全局配置
@@ -85,19 +109,21 @@ public class CodeGenerator {
         gc.setEntityName("%sEntity");
         gc.setMapperName("%sDao");
         gc.setServiceName("%sService");
-        gc.setOutputDir(ROOT_PATH);//文件输出目录
-        gc.setAuthor("yuhaining");
+        gc.setOutputDir(Catalogautocreate.windowUrl);//文件输出目录
+        gc.setAuthor(Catalogautocreate.AUTHOR);
         gc.setOpen(true);//自动打开
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
-        gc.setActiveRecord(true);//开启activeRecord
+        gc.setActiveRecord(false);//开启activeRecord
         return gc;
     }
     //包名信息
     private static PackageConfig getPackageConfig(){
         PackageConfig pc = new PackageConfig();
-        MUNAME = scanner("模块名");
-        pc.setModuleName(MUNAME);
-        pc.setParent("com.huaxin.cloud.tms.base");
+        if(!StringUtils.isEmpty(Catalogautocreate.MK)){
+            pc.setModuleName(Catalogautocreate.MK);
+        }
+        pc.setMapper("dao");
+        pc.setParent(Catalogautocreate.PACKAGENAME);
         return pc;
     }
 
@@ -109,8 +135,9 @@ public class CodeGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityTableFieldAnnotationEnable(true);
-        strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
+        strategy.setInclude(Catalogautocreate.TABLENAMES.split(","));
         strategy.setControllerMappingHyphenStyle(true);
+        strategy.setRestControllerStyle(true);
         strategy.setTablePrefix("tms" + "_");
         //自定义父类
 //        strategy.setSuperEntityClass();
@@ -126,6 +153,7 @@ public class CodeGenerator {
         templateConfig.setService(PAKAGE+"service.java");
         templateConfig.setServiceImpl(PAKAGE+"serviceImpl.java");
         templateConfig.setEntity(PAKAGE+"entity.java");
+        templateConfig.setXml("");
         templateConfig.setEntityKt(PAKAGE+"entity.kt");
         templateConfig.setMapper(PAKAGE+"mapper.java");
 //        templateConfig.setXml(p+"mapper.xml");
@@ -139,17 +167,34 @@ public class CodeGenerator {
             public void initMap() {
             }
         };
-        // 如果模板引擎是 freemarker
+
         String templatePath = PAKAGE + "mapper.xml.ftl";
+        String templatePathReqDTO = PAKAGE + "reqDTO.java.ftl";
+        String templatePathResDTO = PAKAGE + "resDTO.java.ftl";
         // 自定义输出配置
         List<FileOutConfig> focList = new ArrayList<>();
-        // 自定义配置会被优先输出
+        // 自定义xml模板
         focList.add(new FileOutConfig(templatePath) {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return ROOT_PATH + "/src/main/resources/mappers/" + MUNAME
+                return Catalogautocreate.BASEPATH + "/src/main/resources/mappers/" + Catalogautocreate.MK
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+            }
+        });
+        // 自定义reqDTO模板
+        focList.add(new FileOutConfig(templatePathReqDTO) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return Catalogautocreate.windowUrl +"/"+ Catalogautocreate.PACKAGENAME.replace(".", "/") +"/"+ Catalogautocreate.MK
+                        + "/dto/Req" +tableInfo.getEntityName() + "DTO" + StringPool.DOT_JAVA;
+            }
+        });
+        // 自定义resDTO模板
+        focList.add(new FileOutConfig(templatePathResDTO) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return Catalogautocreate.windowUrl +"/"+ Catalogautocreate.PACKAGENAME.replace(".", "/") +"/"+ Catalogautocreate.MK
+                        + "/dto/Res" +tableInfo.getEntityName() + "DTO" + StringPool.DOT_JAVA;
             }
         });
 
