@@ -1,0 +1,336 @@
+div.manInfo {
+  margin: 15px auto;
+  width: 80%;
+  min-width: 1000px;
+
+  .back {
+    color: #3bae9e
+    width: 100%;
+    height: 40px;
+    padding: 14px 10px;
+    background: #fff;
+
+    span {
+      color: float left;
+    }
+
+    button {
+      float: right;
+      margin-top: -6px;
+    }
+  }
+
+  table {
+    td {
+      padding: 15px;
+    }
+
+    .lr {
+      text-align: right;
+      width: 15%;
+      font-weight: 550;
+    }
+  }
+
+  .total {
+    margin-top: 20px;
+  }
+
+  a.fc-blue {
+    text-decoration: underline;
+  }
+
+  .coupon {
+    margin-top: 20px;
+  }
+
+  .table-header {
+    border: 1px solid #fff;
+    background: #fff;
+    padding: 14px 10px;
+    color: #409EFF;
+  }
+
+  ul li {
+    padding-top: 5px;
+    text-align: center;
+  }
+}
+
+
+
+#calendarBox {
+    width: 434px;
+    font-size: 12px;
+    margin: 8px 0 0 15px;
+    #top {
+      height: 50px;
+      line-height: 30px;
+      background: #f3f4f9;
+      border: 1px solid #429e6c;
+      padding: 10px;
+      clear: both;
+      select {
+          font-size: 12px
+      }
+      input {
+          padding: 0
+      }
+    }
+    ul#wk {
+        margin: 0;
+        padding: 0;
+        height: 45px;
+        line-height:45px;
+        color: #888;
+        font-size: 14px;
+        li {
+            float: left;
+            width: 60px;
+            text-align: center;
+            list-style: none;
+            background:#3bae9e;
+            border-right:1px solid #fff;
+            padding:0;
+            color:#fff;
+            b {
+                font-weight: normal;
+                color: #fff;
+            }
+        }:last-child {
+          border-right:1px solid #429e6c;
+        }
+    }
+    #cm {
+        clear: both;
+        position: relative;
+        border: 1px solid #429e6c;
+        overflow:hidden;
+        .cell {
+           float:left;
+            width: 42px;
+            height: 36px;
+            text-align: center;
+            margin: 0 0 0 9px;
+            cursor: pointer;
+            border-right: 1px solid #e4e4e4;
+            border-bottom: 1px solid #e4e4e4;
+            .so {
+                font: 16px arial;
+            }
+            .word{
+              color:#888;
+              position:relative;
+            }
+        }.cc{
+          background: rgb(205, 233, 217);
+          .so{
+            color:#3bae9e;
+          }
+          
+        }
+        .ccccc{
+          .word:after{
+            content: "\E79C";
+            position: absolute;
+            right: 50%;
+            top: 0;
+            font-family: element-icons !important;
+            font-size: 20px;
+            display: inline-block;
+            margin-right: -10px;
+            color: #3bae9e;
+            
+          }
+        }
+    }
+    #bm {
+        text-align: right;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 13px 0 0;
+        border: 1px solid #429e6c;
+        border-top: 1px dashed #eee;
+        clear: both;
+        padding: 0 10px;
+        font-size: 14px;
+        .heavenly-branch {
+            color: #429e6c;
+            float: left;
+        }
+        display:none;
+    }
+
+    #fd {
+        display: none;
+        position: absolute;
+        border: 1px solid #dddddf;
+        background: #fff;
+        color: #333;
+        padding: 10px;
+        line-height: 21px;
+        width: 150px;
+        border-radius: 10px;
+        b {
+            font-weight: normal;
+            color: #429e6c;
+        }
+    }
+    #fd:before{
+        content: '';
+        position: absolute;
+        left: -8px;
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-right: 8px solid #dddddf;
+        border-bottom: 8px solid transparent;
+    }
+    #fd:after{
+        content: '';
+        position: absolute;
+        left: -6px;
+        top: 10px;
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-right: 8px solid #fff;
+        border-bottom: 8px solid transparent;
+    }
+
+    .step {
+        float: right;
+        font-size: 16px;
+        cursor: pointer;
+        width:82px;
+        height:26px;
+        line-height:26px;
+        vertical-align: middle;
+        border:1px solid #ccc;
+        border-radius:5px;
+        background:#fff;
+        color:#666;
+        span{
+          width:40px;
+          text-align:center;
+          float:left;
+           line-height:26px;
+
+        }
+    }
+    .select{
+        float: left;
+        select{
+            margin-right:20px;
+            display:inline-block;
+            width: 82px;
+            height: 26px;
+            line-height:26px;
+            background:#fff;
+            float: left;
+            
+        }
+    }
+
+    #now-date{
+      height: 26px;
+      line-height: 26px;
+      vertical-align: middle;
+      border-radius: 5px;
+      padding:0 20px;
+    }
+
+}
+
+
+.call_page2 #calendarBox #cm .cell {
+    width: 63px;
+    height: 62px;
+    font-size: 16px;
+    margin: 0;
+    border: none;
+    border-right: 1px solid #e4e4e4;
+    border-bottom: 1px solid #e4e4e4;
+}
+.call_page2 #calendarBox #cm .cell:nth-child(7n) {
+    width: 60px;
+    border-right: 0;
+}
+.call_page2 #calendarBox ul#wk li{
+  width: 63px;
+}
+.call_page2 #calendarBox ul#wk li:last-child{
+    width: 62px;
+}
+
+.call_page2 #calendarBox #cm .cell .so{
+  height:60px;
+  line-height:60px;
+}
+
+.my-autocomplete {
+  li {
+    line-height: normal;
+    padding: 7px 10px;
+
+    .name {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      color: #333;
+      width: 50%;
+      float: left;
+    }
+    .addr {
+      font-size: 12px;
+      color: #666;
+      width: 50%;
+      float: left;
+      text-align: right;
+    }
+
+    .highlighted .addr {
+      color: #ddd;
+    }
+  }
+}
+
+
+@media (max-width: 1300px) {
+    .container_r {
+        margin-left: 380px !important;
+    }
+
+    .container_l {
+        width: 360px !important;
+    }
+    
+    .call_page2 #calendarBox #cm{
+      height:auto !important;
+    }
+    .call_page2 #calendarBox #cm .cell {
+        width: 51px !important;
+        height: 40px !important;
+    }
+    
+    .call_page2 #calendarBox #cm .cell .so {
+        font: 14px arial !important;
+        height: 40px !important;
+        line-height: 40px !important;
+    }
+    .call_page2 #calendarBox ul#wk li {
+        width: 51px !important;
+    }
+    .call_page2 #calendarBox ul#wk li:last-child{
+       width: 54px !important;
+    }
+    .call_page2 #calendarBox .select select{
+        width: 60px !important;
+    }
+   
+    .call_page2 .min-calendar{
+      margin-top:10px;
+    }
+    .call_page2 .el-form-item--small.el-form-item{
+      margin-bottom:10px;
+    }
+}

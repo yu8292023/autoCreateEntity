@@ -1,6 +1,5 @@
 package com.buer;
 
-import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -15,7 +14,6 @@ import com.buer.config.JframeWindow;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * @Description:
@@ -52,46 +50,6 @@ public class CodeGenerator {
         mpg.execute();
     }
 
-    /**
-     * <p>
-     * 读取控制台内容
-     * </p>
-     */
-    public static String scanner(String tip) {
-        Scanner scanner = new Scanner(System.in);
-        StringBuilder help = new StringBuilder();
-        help.append("请输入" + tip + "：");
-        System.out.println(help.toString());
-        if (scanner.hasNext()) {
-            String ipt = scanner.next();
-            if (StringUtils.isNotEmpty(ipt)) {
-                return ipt;
-            }
-        }
-        throw new MybatisPlusException("请输入正确的" + tip + "！");
-    }
-
-    // 数据源配置
-    private static DataSourceConfig getDb1(){
-        DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://47.102.140.61:5432/bdxdocter?useUnicode=true&characterEncoding=gbk&serverTimezone=UTC");
-        // dsc.setSchemaName("public");
-        dsc.setDriverName("org.postgresql.Driver");
-        dsc.setUsername("postgres");
-        dsc.setPassword("bdxdocter2019");
-        return dsc;
-    }
-
-    // 数据源配置
-    private static DataSourceConfig getDb2(){
-        DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://10.248.61.27:3306/tms_dev?useUnicode=true&characterEncoding=gbk&serverTimezone=UTC");
-        // dsc.setSchemaName("public");
-        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("temp");
-        dsc.setPassword("Temp!2019");
-        return dsc;
-    }
     // 数据源配置
     private static DataSourceConfig getDb(){
         DataSourceConfig dsc = new DataSourceConfig();

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <link href="../css/index.css" rel="stylesheet">
+    <script src="../lib/jquery-1.10.2.js"></script>
+    <style type="text/css">
+      .content{width:530px; height: 350px;margin: 10px auto;}
+      .content table{width: 100%}
+      .content table td{vertical-align: middle;}
+      *{margin:0;padding:0;color: #838383;}
+      table{font-size: 12px;margin: 10px;line-height: 30px}
+      .txt{width:300px;height:21px;line-height:21px;border:1px solid #d7d7d7;}
+    </style>
+  </head>
+  <body>
+    <div id="title">
+      <p3 >自动生成</p3>
+    </div>
+    <div class="content">
+      <table>
+
+        <tr><td>路径:</td><td><input id="windowUrl" type="text" style="width:90%;"></td></tr>
+        <tr><td>包名:</td><td><input id="PACKAGENAME" type="text" style="width:90%;"></td></tr>
+        <tr><td>表名:</td><td><input id="TABLENAMES" type="text" style="width:90%;"></td></tr>
+        <tr><td>作者:</td><td><input id="AUTHOR" type="text" /></td>
+          <td>
+            <input style="width:80px;height:20px;margin:5px auto;"
+                    id="okB" type="button" value="确定"/>
+          </td>
+        </tr>
+      </table>
+      <div style="width:90%;height:140px;margin:5px auto;border:1px solid gray" id="tip"></div>
+
+    </div>
+    <script>
+      var query = function(urls,param,callback) {
+        return jQuery.ajax({
+          url: urls,
+          type: "POST",
+          data: JSON.stringify(param),
+          async: true,
+          contentType : 'application/json;charset=utf-8',
+          dataType: "json",
+          global: false,
+          success: function (arg) {
+            callback(arg);
+          }
+        });
+      }
+      var okFun = function(){
+        var params = {
+          windowUrl : $("#windowUrl").val(),
+          PACKAGENAME : $("#PACKAGENAME").val(),
+          TABLENAMES : $("#TABLENAMES").val(),
+          AUTHOR : $("#AUTHOR").val()
+        }
+        query("/exec",params,function (arg) {
+          $("#tip").html(arg.MESSAGE);
+        });
+      };
+
+      var loadFun = function (){
+        query("/query",{},function(arg){
+          $("#windowUrl").val(arg.windowUrl);
+          $("#PACKAGENAME").val(arg.PACKAGENAME);
+          $("#TABLENAMES").val(arg.TABLENAMES);
+          $("#AUTHOR").val(arg.AUTHOR);
+        });
+      };
+
+      $("#okB").bind("click",okFun);
+      window.onload=loadFun;
+    </script>
+  </body>
+</html>
