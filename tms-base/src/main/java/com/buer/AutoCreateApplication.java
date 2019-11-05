@@ -30,5 +30,4 @@ public class AutoCreateApplication {
         SpringApplication.run(AutoCreateApplication.class, args);
     }
 
-
 }

@@ -1,6 +1,6 @@
 package com.buer.config;
 
-import com.buer.CodeGenerator;
+import com.buer.autoRun.CodeGenerator;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,6 +25,8 @@ public class JframeWindow {
 		final JTextField windowUrl = setTextField(f,35,20,Catalogautocreate.windowUrl);
 		setJLabel(f, "包名:",60,20);
 		final JTextField packageUrl = setTextField(f,35,20,Catalogautocreate.PACKAGENAME);
+//		setJLabel(f, "模块名:",60,20);
+//		final JTextField mk = setTextField(f,35,20,Catalogautocreate.MK);
 		setJLabel(f, "作者:",60,20);
 		final JTextField author = setTextField(f,35,20,Catalogautocreate.AUTHOR);
 		setJLabel(f, "表名:",60,20);
@@ -41,15 +43,16 @@ public class JframeWindow {
 				Catalogautocreate.PACKAGENAME = packageUrl.getText().replaceAll("\\\\","/");
 				Catalogautocreate.TABLENAMES = gnEnName.getText();
 				Catalogautocreate.AUTHOR = author.getText();
+//				Catalogautocreate.MK = mk.getText();
 
 				System.out.println("==============开始执行写入文件============");
 				try {
 
-					CodeGenerator.execute();
+					new CodeGenerator().execute();
 					tip.setText("执行成功."+new Date().toLocaleString());
 					tip.setBackground(Color.cyan);
 				} catch (Exception e){
-					System.out.println(e.getMessage());
+					e.printStackTrace();
 					tip.setText("执行失败."+new Date().toLocaleString()+e.getLocalizedMessage());
 					tip.setBackground(Color.LIGHT_GRAY);
 				}

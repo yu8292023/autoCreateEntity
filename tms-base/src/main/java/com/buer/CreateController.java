@@ -1,20 +1,16 @@
 package com.buer;
 
-import com.buer.CodeGenerator;
+import com.buer.autoRun.CodeGenerator;
 import com.buer.config.Catalogautocreate;
-import jdk.nashorn.internal.runtime.options.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * @Description:
@@ -47,7 +43,7 @@ public class CreateController {
         this.clearFile(file);
         try {
             this.setThatValue(map);
-            CodeGenerator.execute();
+            new CodeGenerator().execute();
         }catch (Exception e){
             logger.error("异常信息:",e.fillInStackTrace());
         }

@@ -1,4 +1,4 @@
-package ${package.Entity};
+package  ${cfg["package.reqDTO"]};
 
 <#list table.importPackages as pkg>
 import ${pkg};
@@ -27,21 +27,10 @@ import lombok.experimental.Accessors;
     </#if>
 @Accessors(chain = true)
 </#if>
-<#if table.convert>
-@TableName("${table.name}")
-</#if>
 <#if swagger2>
-@ApiModel(value="${entity}对象", description="${table.comment!}")
+@ApiModel(value="${entity}请求实体", description="${table.comment!}")
 </#if>
-<#if superEntityClass??>
-public class Req${entity}DTO extends ${superEntityClass}<#if activeRecord><${entity}></#if> {
-<#elseif activeRecord>
-public class Req${entity}DTO{
-<#else>
 public class Req${entity}DTO implements Serializable {
-</#if>
-<#if entitySerialVersionUID>
-</#if>
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list table.fields as field>
     <#if field.keyFlag>
@@ -52,12 +41,8 @@ public class Req${entity}DTO implements Serializable {
         <#if swagger2>
     @ApiModelProperty(value = "${field.comment}")
         <#else>
-    /**
-     * ${field.comment}
-     */
         </#if>
     </#if>
-
     private ${field.propertyType} ${field.propertyName};
 </#list>
 <#------------  END 字段循环遍历  ---------->

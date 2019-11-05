@@ -1,4 +1,4 @@
-package com.buer;
+package com.buer.autoRun;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -11,9 +11,12 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.buer.config.Catalogautocreate;
 import com.buer.config.JframeWindow;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description:
@@ -23,13 +26,11 @@ import java.util.List;
  */
 public class CodeGenerator {
 
-    public static String PAKAGE = "/tms/";
+    //模板路径
+    private String PAKAGE = "/tms/";
 
-    public static void main(String[] args) {
-        JframeWindow.newWindow();
-    }
 
-    public static void execute(){
+    public void execute(){
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
         //全局配置
@@ -50,18 +51,9 @@ public class CodeGenerator {
         mpg.execute();
     }
 
-    // 数据源配置
-    private static DataSourceConfig getDb(){
-        DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=gbk&serverTimezone=UTC");
-        // dsc.setSchemaName("public");
-        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("root");
-        dsc.setPassword("root");
-        return dsc;
-    }
+
     // 全局配置
-    private static GlobalConfig getGlobalConfig(){
+    private GlobalConfig getGlobalConfig(){
         GlobalConfig gc = new GlobalConfig();
         gc.setDateType(DateType.ONLY_DATE);
         gc.setEntityName("%sEntity");
@@ -70,12 +62,12 @@ public class CodeGenerator {
         gc.setOutputDir(Catalogautocreate.windowUrl);//文件输出目录
         gc.setAuthor(Catalogautocreate.AUTHOR);
         gc.setOpen(true);//自动打开
-        // gc.setSwagger2(true); 实体属性 Swagger2 注解
+        gc.setSwagger2(true);// 实体属性 Swagger2 注解
         gc.setActiveRecord(false);//开启activeRecord
         return gc;
     }
     //包名信息
-    private static PackageConfig getPackageConfig(){
+    private PackageConfig getPackageConfig(){
         PackageConfig pc = new PackageConfig();
         if(!StringUtils.isEmpty(Catalogautocreate.MK)){
             pc.setModuleName(Catalogautocreate.MK);
@@ -87,7 +79,7 @@ public class CodeGenerator {
 
 
     // 策略配置
-    public static StrategyConfig getStrategyConfig(){
+    public StrategyConfig getStrategyConfig(){
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNameConvert(null);
         strategy.setNaming(NamingStrategy.underline_to_camel);
@@ -103,7 +95,7 @@ public class CodeGenerator {
     }
 
     // 策略配置
-    public static TemplateConfig getTemplateConfig(){
+    public TemplateConfig getTemplateConfig(){
         TemplateConfig templateConfig = new TemplateConfig();
         // 配置自定义输出模板
         //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
@@ -111,18 +103,21 @@ public class CodeGenerator {
         templateConfig.setService(PAKAGE+"service.java");
         templateConfig.setServiceImpl(PAKAGE+"serviceImpl.java");
         templateConfig.setEntity(PAKAGE+"entity.java");
-        templateConfig.setXml("");
         templateConfig.setEntityKt(PAKAGE+"entity.kt");
         templateConfig.setMapper(PAKAGE+"mapper.java");
-//        templateConfig.setXml(p+"mapper.xml");
+        templateConfig.setXml(""/*PAKAGE+"mapper.xml"*/);
         return templateConfig;
     }
 
     // 自定义配置
-    public static InjectionConfig getInjectionConfig(){
+    public InjectionConfig getInjectionConfig(){
         InjectionConfig cfg = new InjectionConfig() {
             @Override
             public void initMap() {
+                Map dtoMap = new HashMap<>();
+                dtoMap.put("package.reqDTO",  Catalogautocreate.PACKAGENAME + ".dto.Request");
+                dtoMap.put("package.resDTO", Catalogautocreate.PACKAGENAME + ".dto.Response");
+                this.setMap(dtoMap);
             }
         };
 
@@ -135,8 +130,8 @@ public class CodeGenerator {
         focList.add(new FileOutConfig(templatePath) {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return Catalogautocreate.BASEPATH + "/src/main/resources/mappers/" + Catalogautocreate.MK
-                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                return Catalogautocreate.BASEPATH.replace("\\","/") + "/src/main/resources/mappers/" + Catalogautocreate.MK
+                         + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
         // 自定义reqDTO模板
@@ -144,7 +139,7 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 return Catalogautocreate.windowUrl +"/"+ Catalogautocreate.PACKAGENAME.replace(".", "/") +"/"+ Catalogautocreate.MK
-                        + "/dto/Req" +tableInfo.getEntityName() + "DTO" + StringPool.DOT_JAVA;
+                        + "/dto/Request/Req" +tableInfo.getEntityName() + "DTO" + StringPool.DOT_JAVA;
             }
         });
         // 自定义resDTO模板
@@ -152,11 +147,22 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 return Catalogautocreate.windowUrl +"/"+ Catalogautocreate.PACKAGENAME.replace(".", "/") +"/"+ Catalogautocreate.MK
-                        + "/dto/Res" +tableInfo.getEntityName() + "DTO" + StringPool.DOT_JAVA;
+                        + "/dto/Response/Res" +tableInfo.getEntityName() + "DTO" + StringPool.DOT_JAVA;
             }
         });
 
         cfg.setFileOutConfigList(focList);
         return cfg;
+    }
+
+    // 数据源配置
+    private DataSourceConfig getDb(){
+        DataSourceConfig dsc = new DataSourceConfig();
+        dsc.setUrl(Catalogautocreate.DATASOURCEURL);
+        // dsc.setSchemaName("public");
+        dsc.setDriverName(Catalogautocreate.DATASOURCEDRIVER);
+        dsc.setUsername(Catalogautocreate.DATASOURCEUSERNAME);
+        dsc.setPassword(Catalogautocreate.DATASOURCEPASSWORD);
+        return dsc;
     }
 }
