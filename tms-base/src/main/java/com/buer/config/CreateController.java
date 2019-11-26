@@ -1,7 +1,6 @@
-package com.buer;
+package com.buer.config;
 
 import com.buer.autoRun.CodeGenerator;
-import com.buer.config.Catalogautocreate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
